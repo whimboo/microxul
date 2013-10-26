@@ -49,7 +49,7 @@ cmdLine = parser.parse_args();
   
 cmdLine.clean     = ("clean" in cmdLine.targets);
 cmdLine.build     = ("build" in cmdLine.targets);
-cmdLine.run       = ("test-xpc" in cmdLine.targets);
+cmdLine.run       = ("run" in cmdLine.targets);
 
 # Here, we check that the user passed in at least one option.
 if (not cmdLine.clean and
@@ -163,6 +163,7 @@ if (cmdLine.build):
     os.path.join(topsrcdir, config.get("Mozilla", "xulrunner-sdk"))
   );
 
+if (cmdLine.run):
   execPath = os.path.join(topsrcdir, "dist", "app", appLeafName);
   if (sys.platform == "win32"):
     execPath += ".exe";
