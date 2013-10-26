@@ -16,4 +16,23 @@
         screenY="20"
         >
   <description>Hello World!</description>
+  <hbox>
+    <button oncommand="launchTestWindow();" label="Run tests!"/>
+  </hbox>
+
+  <spacer/>
+  <splitter/>
+  <hbox flex="1">
+    <iframe height="300" width="800" src="chrome://global/content/console.xul" hidevscroll="false"/>
+  </hbox>
+
+  <script type="application/javascript"><![CDATA[
+function launchTestWindow() {
+  window.open(
+    "chrome://microxul/content/testing/frame.xul",
+    "_blank",
+    "chrome,resizable,scrollbars"
+  );
+} 
+  ]]></script>
 </window>
