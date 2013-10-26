@@ -1,19 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"
+  [
+    <!ENTITY JS.TYPE "application/javascript">
+  ]
+>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
   <title>Chrome Jasmine Tests</title>
   <link rel="stylesheet" type="text/css" href="resource://app/jasmine/jasmine.css"/>
-  <script type="application/javascript" src="resource://app/jasmine/jasmine.js"/>
-  <script type="application/javascript" src="resource://app/jasmine/jasmine-html.js"/>
+  <script type="&JS.TYPE;" src="resource://app/jasmine/jasmine.js"/>
+  <script type="&JS.TYPE;" src="resource://app/jasmine/jasmine-html.js"/>
 
-  <script type="application/javascript" src="chrome://microxul/content/testing/testloader.js"/>
-  <script type="application/javascript" src="chrome://microxul/content/testing/runTestsOnLoad.js"/>
+  <script type="&JS.TYPE;" src="chrome://microxul/content/testing/testloader.js"/>
+  <script type="&JS.TYPE;" src="chrome://microxul/content/testing/runTestsOnLoad.js"/>
   
   <!-- Library files go here. -->
   
   <!-- Specifications (test files) go here. -->
-  <script type="application/javascript" src="chrome://microxul/content/tests/importModule.js"/>
+  <script type="&JS.TYPE;" src="chrome://microxul/content/tests/importModule.js"/>
 </head>
 <body onload="runTestsOnLoad();">
     <!-- Insert your content here -->
