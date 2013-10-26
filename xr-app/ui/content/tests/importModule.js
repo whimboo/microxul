@@ -20,5 +20,5 @@ describe("Test page", function () {
     function (window) {
       expect(typeof window.modules).toBe("undefined");
     }
-  ))
+  ));
 });
