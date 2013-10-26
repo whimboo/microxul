@@ -1,0 +1,5 @@
+dist
+local.config
+libraries/xulrunner-sdk
+.DS_Store
+.pyc

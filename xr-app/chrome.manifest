@@ -1,0 +1,3 @@
+content microxul ui/content/
+locale microxul en-US ui/locale/en-US/
+skin microxul default ui/skin/
