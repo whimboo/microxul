@@ -29,7 +29,7 @@ describe("Virtual File Service", function() {
   ));
 
   it(
-    "can enter test mode twice and forget at the second level what it knows at the first",
+    "can enter test mode twice and forget at the second level what it knows at the first level",
     TestPageLoader.setupTest(
       "chrome://microxul/content/tests/blanktest.xul",
       function (window) {
@@ -69,7 +69,9 @@ describe("Virtual File Service", function() {
 
           expect(microXUL_VFS.projectName).toBe("microxul");
           expect(typeof microXUL_VFS.defineSourceGetter).toBe("function");
+          expect(typeof microXUL_VFS.hasSourceGetter).toBe("function");
           expect(typeof microXUL_VFS.getInputStream).toBe("function");
+          expect(typeof microXUL_VFS.getVirtualSpec).toBe("function");
           expect(typeof microXUL_VFS.shutdown).toBe("function");
 
           microXUL_VFS = null;
@@ -127,6 +129,28 @@ describe("Virtual File Service", function() {
       }
     )
   );
+
+  it(
+    "can get existing VirtualFileSystem instances",
+    TestPageLoader.setupTest(
+      "chrome://microxul/content/tests/blanktest.xul",
+      function (window) {
+        window.modules = {};
+        Components.utils.import("resource://app/modules/VirtualFileService.jsm", window.modules);
+        const VFS = window.modules.VirtualFileService;
+
+        VFS.test(function() {
+          expect(VFS.get("microxul")).toBe(null);
+          var microXUL_VFS = VFS.create("microxul");
+          expect(VFS.get("microxul")).toBe(microXUL_VFS);
+
+          expect(VFS.get("other")).toBe(null);
+          var otherVFS = VFS.create("other");
+          expect(VFS.get("other")).toBe(otherVFS);
+        });
+      }
+    )
+  );
 });
 
 describe("Virtual File System", function() {
@@ -156,7 +180,61 @@ describe("Virtual File System", function() {
   );
 
   it(
-    "returns an UTF-8 stream when asked for it",
+    "prevents defining a source getter twice",
+    TestPageLoader.setupTest(
+      "chrome://microxul/content/tests/blanktest.xul",
+      function (window) {
+        var getterCalled = false;
+        var expectedString = "<Hello>\u03b1</Hello>";
+        var dataGetter = function() {
+          getterCalled = true;
+          return expectedString;
+        };
+        function voidFunc() {};
+
+        window.modules = {};
+        Components.utils.import("resource://app/modules/VirtualFileService.jsm", window.modules);
+        const VFS = window.modules.VirtualFileService;
+
+        VFS.test(function() {
+          var microXUL_VFS = VFS.create("microxul");
+          microXUL_VFS.defineSourceGetter("hello.txt", dataGetter);
+
+          expect(function() {
+            microXUL_VFS.defineSourceGetter("hello.txt", voidFunc);
+          }).toThrow("That path is already defined!");
+        });
+      }
+    )
+  );
+
+  it("reports when it has a source getter",
+    TestPageLoader.setupTest(
+      "chrome://microxul/content/tests/blanktest.xul",
+      function (window) {
+        var getterCalled = false;
+        var expectedString = "<Hello>\u03b1</Hello>";
+        var dataGetter = function() {
+          getterCalled = true;
+          return expectedString;
+        };
+
+        window.modules = {};
+        Components.utils.import("resource://app/modules/VirtualFileService.jsm", window.modules);
+        const VFS = window.modules.VirtualFileService;
+
+        VFS.test(function() {
+          var microXUL_VFS = VFS.create("microxul");
+          expect(microXUL_VFS.hasSourceGetter("hello.txt", -1)).toBe(false);
+          microXUL_VFS.defineSourceGetter("hello.txt", dataGetter);
+          expect(microXUL_VFS.hasSourceGetter("hello.txt", -1)).toBe(true);
+        });
+      }
+    )
+  );
+
+  it(
+    "returns a correct UTF-8 stream when asked for it",
     TestPageLoader.setupTest(
       "chrome://microxul/content/tests/blanktest.xul",
       function (window) {
@@ -208,6 +286,30 @@ describe("Virtual File System", function() {
   );
 
   it(
+    "converts chrome:// URLs to virtual-chrome:// correctly",
+    TestPageLoader.setupTest(
+      "chrome://microxul/content/tests/blanktest.xul",
+      function (window) {
+        window.modules = {};
+        Components.utils.import("resource://app/modules/VirtualFileService.jsm", window.modules);
+        const VFS = window.modules.VirtualFileService;
+
+        VFS.test(function() {
+          var microXUL_VFS = VFS.create("microxul");
+          var chromeURL = "chrome://navigator/content";
+          var virtualURL = "virtual-chrome://microxul/navigator/content";
+          [
+            "", "/", "/navigator.xul", "/navigator.js", "bindings/navigator.xml#foo"
+          ].forEach(function(suffix) {
+            var convertedURL = microXUL_VFS.getVirtualSpec(chromeURL + suffix);
+            expect(convertedURL).toBe(virtualURL + suffix);
+          });
+        });
+      }
+    )
+  );
+
+  it(
     "throws an error after it has been shut down",
     TestPageLoader.setupTest(
       "chrome://microxul/content/tests/blanktest.xul",
@@ -230,7 +332,13 @@ describe("Virtual File System", function() {
             microXUL_VFS.defineSourceGetter("hello.txt", dataGetter);
           }).toThrow("This virtual file system is already dead!");
           expect(function() {
+            microXUL_VFS.hasSourceGetter("hello.txt", -1);
+          }).toThrow("This virtual file system is already dead!");
+          expect(function() {
             microXUL_VFS.getInputStream("hello.txt", -1);
+          }).toThrow("This virtual file system is already dead!");
+          expect(function() {
+            microXUL_VFS.getVirtualSpec("chrome://navigator/content/", -1);
           }).toThrow("This virtual file system is already dead!");
           expect(function() {
             microXUL_VFS.shutdown();

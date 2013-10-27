@@ -32,6 +32,10 @@ const VirtualFileService = {
     return VFS_Map.has(projectName);
   },
 
+  get: function(projectName) {
+    return VFS_Map.has(projectName) ? VFS_Map.get(projectName) : null;
+  },
+
   create: function(projectName) {
     if (this.has(projectName)) {
       throw new Error("A project by this name already exists!");
@@ -85,6 +89,21 @@ VirtualFileSystem.prototype = {
   },
 
   /**
+   * Determine if we have a source getter.
+   *
+   * @param path {String} The path to look up.
+   * @param port {Integer} -1 to use current code, 0+ to use a tag.
+   *
+   * @returns {boolean} True if we have a getter.
+   */
+  hasSourceGetter: function(path, port) {
+    this.__ensureAvailable__();
+    if (port != -1)
+      return false; // XXX ajvincent Implement later!
+    return this.__pathGetters__.has(path);
+  },
+
+  /**
    * Get a UTF-8 input stream for a path.
    *
    * @param path {String} The path to look up.
@@ -106,6 +125,22 @@ VirtualFileSystem.prototype = {
 
     var inputStream = UnicodeConverter.convertToInputStream(sourceGetter());
     return inputStream;
+  },
+
+  /**
+   * Convert a real-world URI spec to a virtual one.
+   *
+   * @param spec {String}  The spec to convert.
+   * @param tag  {Integer} -1 to use current code, 0+ to use a tag.
+   */
+  getVirtualSpec: function(spec, tag) {
+    this.__ensureAvailable__();
+    if (/^chrome:\/\//.test(spec)) {
+      return "virtual-chrome:" +
+             ((typeof tag == "number") && (tag >= 0) ? Math.floor(tag): "") +
+             "//" + this.projectName + "/" + spec.substr("chrome://".length);
+    }
+    throw new Error("Not implemented yet for non-chrome URL's!");
   },
 
   /**
