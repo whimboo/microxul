@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Jasmine Spec Runner</title>
+  
+    <link rel="shortcut icon" type="image/png" href="../../jasmine_favicon.png">
+    <link rel="stylesheet" type="text/css" href="../../jasmine.css">
+    <script type="text/javascript" src="../../jasmine.js"></script>
+    <script type="text/javascript" src="../../jasmine-html.js"></script>
+
+    <!-- include source files here... -->
+    <script type="text/javascript" src="../../extensions/AsyncTestDriver.js"></script>
+
+    <!-- include spec files here... -->  
+    <script type="text/javascript" src="AsyncTestDriver.js"></script>
+
+    <script type="text/javascript" src="environment.js"></script>
+</head>
+
+<body onload="execJasmine();">
+    <h1>We expect three failures on this page:</h1>
+    <ol>
+        <li>timeout: timed out after 100 msec waiting for first step mayContinue</li>
+        <li>Error: intentional abort in .../microxul/xr-app/jasmine/extensions/spec/AsyncTestDriver.js (line 182)</li>
+        <li>Error: intentional abort in .../microxul/xr-app/jasmine/extensions/spec/AsyncTestDriver.js (line 233)</li>
+    </ol>
+</body>
+</html>
