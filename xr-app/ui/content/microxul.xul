@@ -18,6 +18,7 @@
   <description>Hello World!</description>
   <hbox>
     <button oncommand="launchTestWindow();" label="Run tests!"/>
+    <button oncommand="WizardLauncher.basicXUL();" label="Basic XUL wizard"/>
   </hbox>
 
   <spacer/>
@@ -27,12 +28,27 @@
   </hbox>
 
   <script type="application/javascript"><![CDATA[
+Components.utils.import("resource://gre/modules/Services.jsm");
 function launchTestWindow() {
   window.open(
     "chrome://microxul/content/testing/frame.xul",
     "_blank",
     "chrome,resizable,scrollbars"
   );
-} 
+}
+
+const WizardLauncher = {
+  open: function(path) {
+    window.open(
+      "chrome://microxul/content/wizards/" + path + ".xul",
+      path,
+      "chrome,resizable,width=1200,height=800"
+    );
+  },
+
+  basicXUL: function() {
+    this.open("basic");
+  }
+};
   ]]></script>
 </window>

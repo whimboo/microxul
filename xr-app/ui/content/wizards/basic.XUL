@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!DOCTYPE wizard PUBLIC "-//MOZILLA//DTD XUL V1.0//EN" "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet type="text/css" href="chrome://microxul/content/bindings/bindings.css"?>
+<?xml-stylesheet type="text/css" href="chrome://microxul/skin/wizard.css"?>
+
+<wizard id="wizard-window"
+        title="Basic XUL "
+        class="color-dialog"
+        xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+        xmlns:html="http://www.w3.org/1999/xhtml"
+        xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+       >
+  <wizardpage/>
+
+  <script type="application/javascript" src="chrome://microxul/content/wizards/basic.js"/>
+
+  <spacer flex="1"/>
+  <splitter/>
+  <hbox>
+    <description>Preview pane</description>
+    <button label="Preview in new window"/>
+  </hbox>
+
+  <iframe height="200" width="1000" id="previewPane"/>
+
+  <box hidden="true">
+    <source id="sample"><![CDATA[
+<?xml-stylesheet type="text/css" href="chrome://global/skin/global.css"?>
+<window xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+  <hbox><button label="Hello World"/></hbox>
+</window>
+    ]]></source>
+  </box>
+</wizard>

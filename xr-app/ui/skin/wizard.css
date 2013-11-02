@@ -1,0 +1,11 @@
+@import url("chrome://microxul/content/bindings/bindings.css");
+
+@namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul");
+
+wizardpage {
+  height: 550px;
+}
+
+iframe {
+  border: 1px solid black;
+}
