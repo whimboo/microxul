@@ -1,1 +1,6 @@
 @namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul");
+
+codemirror {
+    height: 100px;
+    -moz-binding: url("chrome://microxul/content/bindings/codemirror.xml#codemirror");
+}

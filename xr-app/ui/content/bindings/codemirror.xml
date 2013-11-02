@@ -1,0 +1,92 @@
+<?xml version="1.0"?>
+<!DOCTYPE bindings PUBLIC "-//MOZILLA//DTD XBL V1.0//EN" "http://www.mozilla.org/xbl">
+
+<bindings
+    xmlns="http://www.mozilla.org/xbl"
+    xmlns:xbl="http://www.mozilla.org/xbl"
+    xmlns:html="http://www.w3.org/1999/xhtml"
+    xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+  <binding id="codemirror">
+    <content>
+      <xul:vbox>
+        <xul:iframe type="content"
+                    anonid="iframe"
+                    width="760"
+                    src="chrome://microxul/content/bindings/codemirror-frame.html"
+                    xbl:inherits="width,height"
+                   />
+        <children/>
+      </xul:vbox>
+    </content>
+
+    <implementation>
+      <field name="initialized">false</field>
+      
+      <field name="contentIframe" readonly="true">
+        document.getAnonymousElementByAttribute(this, "anonid", "iframe");
+      </field>
+
+      <property name="contentEditor" readonly="true">
+        <getter>
+          return this.contentIframe.contentWindow.editor;
+        </getter>
+      </property>
+      
+      <property name="value">
+        <getter>
+          return this.contentEditor.getValue();
+        </getter>
+        <setter>
+          this.contentEditor.setValue(val);
+        </setter>
+      </property>
+      
+      <method name="addSourceEventListener">
+        <parameter name="handler"/>
+        <body><![CDATA[
+          this.addEventListener("sourceupdate", handler, false, true);
+        ]]></body>
+      </method>
+
+      <method name="removeSourceEventListener">
+        <parameter name="handler"/>
+        <body><![CDATA[
+          this.removeEventListener("sourceupdate", handler, false);
+        ]]></body>
+      </method>
+
+      <property name="readonly">
+        <getter>
+          var rv = this.getAttribute("readonly");
+          return (rv === "nocursor") ? rv : (rv === "true");
+        </getter>
+        <setter>
+          if (val == "nocursor")
+            this.setAttribute("readonly", "nocursor");
+          else if (val)
+            this.setAttribute("readonly", "true");
+          else
+            this.removeAttribute("readonly");
+          return val;
+        </setter>
+      </property>
+
+      <method name="initEditor">
+        <body><![CDATA[
+          this.contentIframe.contentWindow.postMessage({
+            messageType: "initEditor",
+            editorType: this.getAttribute("type"),
+            width: parseInt(this.getAttribute("width"), 10),
+            height: parseInt(this.getAttribute("height"), 10),
+            readonly: this.readonly
+          }, "*");
+        ]]></body>
+      </method>
+
+      <constructor>
+        this.contentIframe.addEventListener("load", this.initEditor.bind(this), true);
+      </constructor>
+    </implementation>
+  </binding>
+</bindings>
