@@ -18,11 +18,16 @@ const EXPORTED_SYMBOLS = ["VirtualFileService"];
 
 const Ci = Components.interfaces,
       Cc = Components.classes,
+      Cu = Components.utils,
       CC = Components.Constructor;
 
 const UnicodeConverter = Cc["@mozilla.org/intl/scriptableunicodeconverter"]
                            .createInstance(Ci.nsIScriptableUnicodeConverter);
 UnicodeConverter.charset = "UTF-8";
+
+function voidFunc() {};
+
+const RESET_KEY = {}; // hidden key
 
 var VFS_Map = new Map();
 const VirtualFileService = {
@@ -44,19 +49,21 @@ const VirtualFileService = {
     return new VirtualFileSystem(projectName);
   },
 
-  test: function(callback) {
+  test: function(milkContract) {
     var origMap = VFS_Map;
     VFS_Map = new Map();
-    this.__testDepth__++;
-    try {
-      callback();
-    }
-    finally {
-      this.__testDepth__--;
+
+    this.reset = milkContract.endContract = (function() {
       VFS_Map = origMap;
-    }
-  }
+      this.reset = VFS_Map.get(RESET_KEY);
+    }).bind(this);
+    VFS_Map.set(RESET_KEY, this.reset);
+  },
+
+  reset: voidFunc
 };
+
+VFS_Map.set(RESET_KEY, voidFunc);
 
 function VirtualFileSystem(projectName) {
   this.projectName = projectName;
@@ -123,8 +130,8 @@ VirtualFileSystem.prototype = {
       throw new Error("source not found for path " + path);
     }
 
-    var inputStream = UnicodeConverter.convertToInputStream(sourceGetter());
-    return inputStream;
+    var source = sourceGetter();
+    return UnicodeConverter.convertToInputStream(source);
   },
 
   /**
@@ -136,9 +143,9 @@ VirtualFileSystem.prototype = {
   getVirtualSpec: function(spec, tag) {
     this.__ensureAvailable__();
     if (/^chrome:\/\//.test(spec)) {
-      return "virtual-chrome:" +
-             ((typeof tag == "number") && (tag >= 0) ? Math.floor(tag): "") +
-             "//" + this.projectName + "/" + spec.substr("chrome://".length);
+      return "virtual-chrome://" + this.projectName + 
+             ((typeof tag == "number") && (tag >= 0) ? ":" + Math.floor(tag): "") +
+             "/" + spec.substr("chrome://".length);
     }
     throw new Error("Not implemented yet for non-chrome URL's!");
   },
