@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!DOCTYPE overlay PUBLIC "-//MOZILLA//DTD XUL V1.0//EN" "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+<overlay id="overlay"
+         xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+  <wizardpage id="layout" label="Basic XUL Layout">
+    <description>
+      Type your XUL markup here.  (In the future, we'll include a drag &amp; drop interface.)
+    </description>
+    <hbox>
+      <codemirror type="xml" width="800" height="350"/>
+      <splitter/>
+      <vbox>
+        <description>(Drag &amp; Drop panel starts here)</description>
+      </vbox>
+    </hbox>
+  </wizardpage>
+
+</overlay>

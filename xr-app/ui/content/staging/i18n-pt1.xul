@@ -1,0 +1,109 @@
+<?xml version="1.0"?>
+<!DOCTYPE overlay PUBLIC "-//MOZILLA//DTD XUL V1.0//EN" "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+<overlay id="overlay"
+         xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+  <wizardpage id="i18n-pt1" label="Label &amp; Access Key Internationalization, Part One">
+    <description>
+      Several attributes reflect text the user sees, or access keys for commands.  These texts should come from "locale" files,
+      so we give them XML entity names, such as "launchButton.label".
+    </description>
+    <grid>
+      <rows>
+        <row/>
+        <row/>
+      </rows>
+      <columns>
+        <column>
+          <description>Source Code</description>
+          <textbox multiline="true" class="sourcecode" rows="30" cols="40"/>
+        </column>
+        <column>
+          <description>DOM Tree (Elements only)</description>
+          <vbox>
+          <tree id="i18n-pt1-domtree" rows="10" width="540px" height="350px">
+            <treecols>
+              <treecol id="i18n-pt1-nameColumn" label="Name" width="200px" primary="true" flex="1"/>
+              <splitter/>
+              <!-- Not enough room for the ID column.
+              <treecol id="i18n-pt1-idColumn" label="Element ID" width="100px"/>
+              -->
+              <treecol id="i18n-pt1-textColumn"  label="Text" width="150px"/>
+              <treecol id="i18n-pt1-entityNameColumn" label="Entity Name" width="100px"/>
+              <treecol id="i18n-pt1-entityFileColumn" label="File (Key)" width="70px"/>
+            </treecols>
+            <treechildren/>
+          </tree>
+            <hbox>
+              <label value="Locale:"/>
+              <textbox size="10" id="i18n-pt1-locale"/>
+            </hbox>
+          </vbox>
+        </column>
+        <column>
+          <description>DTD files</description>
+          <vbox>
+            <listbox id="i18n-pt1-dtd-files" rows="5" width="250px" height="100px">
+              <listhead>
+                <listheader label="Key" width="30px"/>
+                <listheader label="Path" width="220px"/>
+              </listhead>
+              <listcols>
+                <listcol/>
+                <listcol/>
+              </listcols>
+              <listitem>
+                <listcell label="1"/>
+                <listcell label="chrome://global/locale/global.dtd"/>
+              </listitem>
+            </listbox>
+
+            <label>Entities</label>
+            <listbox id="i18n-pt1-entities" height="80px">
+              <listhead>
+                <listheader label="Name" width="80px"/>
+                <listheader label="value" width="90px"/>
+                <listheader label="Element ID" width="80px"/>
+              </listhead>
+              <listcols>
+                <listcol/>
+                <listcol/>
+                <listcol/>
+              </listcols>
+              <listitem>
+                <listcell label="foo.label"/>
+                <listcell label="Foo"/>
+                <listcell label="foo"/>
+              </listitem>
+            </listbox>
+            <hbox>
+              <button label="Remove" disabled="true"/>
+            </hbox>
+
+            <groupbox>
+              <caption>Add a DTD file</caption>
+              <hbox>
+                <label value="Package"/>
+                <menulist editable="true">
+                  <menupopup>
+                    <menuitem label="global"/>
+                    <menuitem label="toolkit"/>
+                  </menupopup>
+                </menulist>
+              </hbox>
+
+              <label value="Local path"/>
+              <hbox>
+                <label value="chrome://global/locale/"/>
+                <textbox size="10" value="global.dtd"/>
+              </hbox>
+              <hbox>
+                <button label="Add"/>
+              </hbox>
+            </groupbox>
+          </vbox>
+        </column>
+      </columns>
+    </grid>
+  </wizardpage>
+</overlay>

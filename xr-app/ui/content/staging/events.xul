@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<!DOCTYPE overlay PUBLIC "-//MOZILLA//DTD XUL V1.0//EN" "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+<overlay id="overlay"
+         xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+  <wizardpage id="events" label="Events">
+    <description>
+      Choose the elements you want to have events, and name JavaScript objects and methods to handle them.
+    </description>
+    <grid>
+      <rows>
+        <row/>
+        <row/>
+      </rows>
+      <columns>
+        <column>
+          <description>Source Code</description>
+          <textbox multiline="true" class="sourcecode" rows="30" cols="40"/>
+        </column>
+        <column>
+          <description>DOM Tree (Elements only)</description>
+          <tree id="events-domtree" rows="10" width="800px">
+            <treecols>
+              <treecol id="events-nameColumn"  label="Name" width="200px" primary="true" flex="1"/>
+              <splitter/>
+              <treecol id="events-idColumn"    label="Element ID" width="100px"/>
+              <treecol id="events-typeColumn"  label="Event Type" width="75px"/>
+              <treecol id="events-attachColumn" label="Attached as" width="100px"/>
+              <treecol id="events-controllerColumn" label="Control Object" width="100px"/>
+              <treecol id="events-handlerColumn" label="Method" width="50px" flex="1"/>
+            </treecols>
+            <treechildren/>
+          </tree>
+        </column>
+      </columns>
+    </grid>
+  </wizardpage>
+</overlay>

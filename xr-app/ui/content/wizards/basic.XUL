@@ -5,6 +5,8 @@
 <?xml-stylesheet type="text/css" href="chrome://microxul/content/bindings/bindings.css"?>
 <?xml-stylesheet type="text/css" href="chrome://microxul/skin/wizard.css"?>
 
+<?xul-overlay href="chrome://microxul/content/pages/layout/layout.xul"?>
+
 <wizard id="wizard-window"
         title="Basic XUL "
         class="color-dialog"
@@ -12,7 +14,7 @@
         xmlns:html="http://www.w3.org/1999/xhtml"
         xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
        >
-  <wizardpage/>
+  <wizardpage id="layout"/>
 
   <script type="application/javascript" src="chrome://microxul/content/wizards/basic.js"/>
 

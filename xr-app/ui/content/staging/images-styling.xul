@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<!DOCTYPE overlay PUBLIC "-//MOZILLA//DTD XUL V1.0//EN" "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+<overlay id="overlay"
+         xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+  <wizardpage id="images-styling" label="Images &amp; Styling">
+    <description>Now, we'll pick some CSS styling.</description>
+    <grid>
+      <rows>
+        <row/>
+        <row/>
+      </rows>
+      <columns>
+        <column>
+          <description>Source Code</description>
+          <textbox multiline="true" class="sourcecode" rows="30" cols="40"/>
+        </column>
+        <column>
+          <description>DOM Tree</description>
+          <tree id="images-domtree" rows="10" width="500px">
+            <treecols>
+              <treecol id="images-nameColumn"  label="Node Name" width="100px" primary="true" flex="1"/>
+              <splitter/>
+              <treecol id="images-typeColumn"  label="Node Type" width="75px"/>
+              <treecol id="images-valueColumn" label="Node Value" width="300px" flex="1"/>
+            </treecols>
+            <treechildren/>
+          </tree>
+        </column>
+        <column>
+          <description>CSS properties</description>
+          <vbox>
+            <description>CSS selectors</description>
+            <menulist editable="true">
+              <menupopup>
+                <menuitem label=":disabled"/>
+                <menuitem label=":focus"/>
+              </menupopup>
+            </menulist>
+            <description>Sort by:</description>
+            <menulist>
+              <menupopup>
+                <menuitem label="Alphabetical"/>
+                <menuitem label="Category"/>
+              </menupopup>
+            </menulist>
+            <tree id="css-props" rows="5" width="200px" height="200px">
+              <treecols>
+                <treecol id="css-props-name" label="Name" width="100px" primary="true"/>
+                <splitter/>
+                <treecol id="css-props-value" label="Value" width="200px"/>
+              </treecols>
+            </tree>
+            <spacer/>
+            <description>Image?</description>
+            <hbox>
+              <textbox id="image-url" disabled="true" size="30"/>
+              <button label="Find image"/>
+            </hbox>
+          </vbox>
+        </column>
+      </columns>
+    </grid>
+  </wizardpage>
+</overlay>

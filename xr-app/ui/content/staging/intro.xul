@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE overlay PUBLIC "-//MOZILLA//DTD XUL V1.0//EN" "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+<overlay id="overlay"
+         xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+  <wizardpage id="introduction" label="Introduction">
+    <description>Here's how we'll build your XUL interface:</description>
+    <ol xmlns="http://www.w3.org/1999/xhtml">
+      <li>XUL Project Details</li>
+      <li>Basic XUL Layout</li>
+      <li>Images &amp; Styling</li>
+      <li>Events</li>
+      <li>Label &amp; Access Key Internationalization</li>
+      <li>Keys and Commands</li>
+      <li>JavaScript controller object properties</li>
+      <li>Complete event handlers</li>
+      <li>Packaging of the XUL</li>
+      <li>Tests</li>
+      <li>Documentation</li>
+      <li>Checklist</li>
+    </ol>
+    <spacer/>
+    <hbox>
+      <button label="Take me on a guided tour!"/>
+    </hbox>
+  </wizardpage>
+</overlay>
