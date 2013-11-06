@@ -8,12 +8,25 @@
       Type your XUL markup here.  (In the future, we'll include a drag &amp; drop interface.)
     </description>
     <hbox>
-      <codemirror type="xml" width="800" height="350"/>
+      <codemirror type="xml"
+                  width="800"
+                  height="350"
+                  id="layout:sourcemarkup"
+                 />
       <splitter/>
       <vbox>
         <description>(Drag &amp; Drop panel starts here)</description>
       </vbox>
     </hbox>
   </wizardpage>
+  <script type="application/javascript"><![CDATA[
+ContentManager.importPageScriptOnLoad(
+  "layout",
+  "chrome://microxul/content/pages/layout/",
+  [
+    "layout.js"
+  ]
+);
 
+  ]]></script>
 </overlay>
