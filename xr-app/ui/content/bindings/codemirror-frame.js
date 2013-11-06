@@ -31,18 +31,14 @@ function initEditor(data) {
 
 function editorChange(mirror, changes) {
     var source = mirror.doc.getValue();
-    var evt = document.createEvent("MessageEvent");
-    evt.initMessageEvent(
-        "sourceupdate",
-        true,
-        false,
-        { /* The actual data of the event. */
+    var evt = new MessageEvent("sourceupdate", {
+        data: { 
             newSource: mirror.doc.getValue(),
             changes: changes
         },
-        location.href,
-        null,
-        window
-    );
+        origin: location.href,
+        lastEventId: "",
+        window: window
+    });
     window.dispatchEvent(evt);
 }
