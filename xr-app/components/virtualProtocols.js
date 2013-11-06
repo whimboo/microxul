@@ -2,7 +2,8 @@ const Ci = Components.interfaces,
       Cc = Components.classes,
       Cu = Components.utils,
       Cr = Components.results,
-      CC = Components.Constructor;
+      CC = Components.Constructor,
+      CE = Components.Exception;
 
 Cu.import("resource://gre/modules/XPCOMUtils.jsm");
 Cu.import("resource://gre/modules/Services.jsm");
@@ -20,6 +21,9 @@ const StandardURL = CC("@mozilla.org/network/standard-url;1",
 
 const InputStreamPump = CC("@mozilla.org/network/input-stream-pump;1",
                            "nsIInputStreamPump", "init");
+
+const MIMEService = Cc["@mozilla.org/mime;1"]
+                      .getService(Ci.nsIMIMEService);
 
 function VirtualChannel(uri, inputStream) {
   // nsIChannel
@@ -46,7 +50,12 @@ function VirtualChannel(uri, inputStream) {
   this.owner = null;
   this.notificationCallbacks = null;
   this.securityInfo = null;
-  this.contentType = null;
+
+  var fp = uri.filePath;
+  if (/\/$/.test(fp))
+    this.contentType = "application/http-index-format";
+  else
+    this.contentType = MIMEService.getTypeFromURI(uri);
 
   // We know this because the input stream was created as a UTF-8 stream.
   this.contentCharset = "UTF-8";
@@ -90,7 +99,7 @@ VirtualChannel.prototype = {
 
     var pump = new InputStreamPump(this.__inputStream__, -1, -1, 0, 0, true);
     if (this.loadGroup)
-      this.loadGroup.addRequest(this, aContext);
+      this.loadGroup.addRequest(this, context);
     pump.asyncRead(this, null);
 
     this.__pump__ = pump;
