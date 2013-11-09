@@ -19,6 +19,7 @@
   <hbox>
     <button oncommand="launchTestWindow();" label="Run tests!"/>
     <button oncommand="WizardLauncher.basicXUL();" label="Basic XUL wizard"/>
+    <button oncommand="openAddons();"  label="about:addons"/>
   </hbox>
 
   <spacer/>
@@ -50,5 +51,10 @@ const WizardLauncher = {
     this.open("basic");
   }
 };
+
+function openAddons() {
+  window.open("chrome://mozapps/content/extensions/extensions.xul?type=extensions",
+              "_blank", "height=768,width=1024,chrome");
+}
   ]]></script>
 </window>
