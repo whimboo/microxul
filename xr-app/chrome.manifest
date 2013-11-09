@@ -3,6 +3,9 @@ content microxul ui/content/
 locale microxul en-US ui/locale/en-US/
 skin microxul default ui/skin/
 
+# Branding
+locale branding en-US branding/en-US/
+
 # virtual-chrome: protocol handler
 component {c19c2218-d92e-4df6-859c-451ab271ffce} components/virtualProtocols.js
 contract @mozilla.org/network/protocol;1?name=virtual-chrome {c19c2218-d92e-4df6-859c-451ab271ffce}
